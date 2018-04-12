@@ -478,6 +478,7 @@ function bodyTemplateTypePicker(pNum) {
 }
 
 //Template makers
+   //TODO: Change parameter names to match JSON spec
 function bodyTemplateMaker(pBodyTemplateType, pImg, pTitle, pText1, pText2, pOutputSpeech, pReprompt, pHint, pBackgroundIMG) {
     var bodyTemplate = bodyTemplateTypePicker.call(this, pBodyTemplateType);
     var template = bodyTemplate.setTitle(pTitle)
@@ -525,7 +526,7 @@ function listTemplateTypePicker(pNum) {
     }
     return val;
 }
-
+   //TODO: Change parameter names to match JSON spec
 function listTemplateMaker(pArray, pType, pTitle, pOutputSpeech, pQuiz, pBackgroundIMG) {
     const listItemBuilder = new Alexa.templateBuilders.ListItemBuilder();
     var listTemplateBuilder = listTemplateTypePicker(pType);
