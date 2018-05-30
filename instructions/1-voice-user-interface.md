@@ -54,7 +54,7 @@ Select **JSON Editor** to the left and you should be presented with an input box
 
 <img src="https://s3.eu-west-2.amazonaws.com/jgsound/cookbookimages/jsonE.PNG" />
 
-In the textfield provided, replace the existing code with the code provided in the [Interaction Model](../InteractionModel.json), then click "Save Model" & "Build Model".  
+In the textfield provided, replace the existing code with the code provided in the [Interaction Model](../models), then click "Save Model" & "Build Model".  
 
 9. Add some more sample utterances for your newly generated intents if you like (selectable on the left).  These are the things a user would say to make a specific intent happen. 
 
