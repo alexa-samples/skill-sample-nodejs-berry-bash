@@ -19,8 +19,8 @@ var skillDictionaryName = 'Berry Book';
 var categoryPlural = 'berries';
 var categorySingular = 'berry';
 
-var mainImage = 'https://s3.eu-west-2.amazonaws.com/jgsound/berryImages/background-berries-berry-blackberries-87818%2B(1).jpeg';
-var mainImgBlurBG = 'https://s3.eu-west-2.amazonaws.com/jgsound/berryImages/main_blur2.png';
+var mainImage = 'https://s3.amazonaws.com/ask-samples-resources/berryImages/background-berries-berry-blackberries-87818%2B(1).jpeg';
+var mainImgBlurBG = 'https://s3.amazonaws.com/ask-samples-resources/berryImages/main_blur2.png';
 
 var topicData = {
     "raspberries": {
@@ -76,8 +76,8 @@ var negativeSpeechconArray = ['wah wah', 'uh oh', 'tosh', 'quack', 'oof', 'oh de
 var correctResponses = ['That is correct.', 'You got it!', 'Nice one.', 'There you go.', 'Awesome', 'Congratulations.'];
 var wrongResponses = ['Oh no.', 'That is wrong.', 'Incorrect.', 'Unlucky.', 'Maybe next time.', 'Nearly.'];
 
-var secondPlaceImage = 'https://s3.eu-west-2.amazonaws.com/jgsound/berryImages/medal-2163349_640.png';
-var firstPlaceImage = 'https://s3.eu-west-2.amazonaws.com/jgsound/berryImages/medal-2163347_640.png';
+var secondPlaceImage = 'https://s3.amazonaws.com/ask-samples-resources/berryImages/medal-2163349_640.png';
+var firstPlaceImage = 'https://s3.amazonaws.com/ask-samples-resources/berryImages/medal-2163347_640.png';
 
 const GAMELENGTH = 5;
 var testingOnSim = false; //flip to experience voice only skill on display device/simulator
@@ -97,36 +97,6 @@ const LaunchRequestHandler = {
         var reprompt = "What would you like to do?";
 
         return showSkillIntro(speechOutput, reprompt, handlerInput);
-    },
-};
-
-const HelpHandler = {
-    canHandle(handlerInput) {
-        const request = handlerInput.requestEnvelope.request;
-        return request.type === 'IntentRequest' &&
-            request.intent.name === 'AMAZON.HelpIntent';
-    },
-    handle(handlerInput) {
-        //Provide instructions based on skill state
-        newSessionHandler(handlerInput);
-
-        const response = handlerInput.responseBuilder;
-        const attributes = handlerInput.attributesManager.getSessionAttributes();
-
-        var speechOutput;
-        var reprompt;
-
-        if (attributes.skillState == 'gamePlaying') {
-            speechOutput = 'In ' + skillQuizName + ', you simply need to select the option that most resembles the ' + categorySingular + ' being asked for in the question; either say 1 - 4, or touch the screen!';
-
-            response.withShouldEndSession(null);
-
-            saveLastThingSaid(handlerInput, speechOutput);
-
-            response.speak(speechOutput).getResponse();
-        } else {
-            return showSkillIntro(speechOutput, reprompt, handlerInput);
-        }
     },
 };
 
@@ -207,7 +177,7 @@ function QuizFunction(handlerInput) {
 
             handlerInput.attributesManager.setSessionAttributes(attributes);
 
-            return bodyTemplateMaker('BodyTemplate7', handlerInput, mainImage, 'Time to play ' + skillQuizName + '!', null, null, speechOutput, reprompt, null, mainImgBlurBG, false);
+            return bodyTemplateMaker('BodyTemplate7', handlerInput, mainImage, 'Time to play ' + skillQuizName + '!', null, null, null, speechOutput, reprompt, null, mainImgBlurBG, false);
         } else {
             speechOutput = 'Unfortunately, ' + skillQuizName + ' is not supported on this device, but you can still learn about the wonder of berries which in my opinion is far more fun. What would you like to do?';
             reprompt = 'What would you like to do?';
@@ -258,8 +228,6 @@ const MoreInfoIntentHandler = {
             response.withShouldEndSession(null);
 
             saveLastThingSaid(handlerInput, speechOutput);
-
-            console.log(111)
 
             return response.speak(speechOutput).getResponse();
         } else {
@@ -365,11 +333,25 @@ const InformationIntentHandler = {
     },
 };
 
+const NextIntentHandler = {
+    canHandle(handlerInput) {
+        const request = handlerInput.requestEnvelope.request;
+        return request.type === 'IntentRequest' &&
+            request.intent.name === 'AMAZON.NextIntent';
+    },
+    handle(handlerInput) {
+        //Provide instructions based on skill state
+        newSessionHandler.call(this);
+
+        return handleUnknown(handlerInput);
+    },
+};
+
 const HelpIntentHandler = {
     canHandle(handlerInput) {
         const request = handlerInput.requestEnvelope.request;
         return request.type === 'IntentRequest' &&
-            request.intent.name === 'AMAZON.Help';
+            request.intent.name === 'AMAZON.HelpIntent';
     },
     handle(handlerInput) {
         //Provide instructions based on skill state
@@ -396,9 +378,11 @@ const HelpIntentHandler = {
 
 const ElementSelectedHandler = {
     canHandle(handlerInput) {
+
         const request = handlerInput.requestEnvelope.request;
-        return request.type === 'IntentRequest' &&
-            request.intent.name === 'ElementSelected';
+        return (request.type === 'IntentRequest' &&
+            request.intent.name === 'ElementSelected')
+            || request.type === 'Display.ElementSelected';
     },
     handle(handlerInput) {
         newSessionHandler(handlerInput);
@@ -425,7 +409,6 @@ const ElementSelectedHandler = {
                 }
             } else if (handlerInput.requestEnvelope.request.intent.slots.numberValue.value) {
                 //User said their choice
-                console.log(111)
                 var userChoiceNumber = parseInt(handlerInput.requestEnvelope.request.intent.slots.numberValue.value);
 
                 if (currentQNo < quizOptions.length - 1) {
@@ -447,7 +430,6 @@ const ElementSelectedHandler = {
                     return handleAnswer(handlerInput, correctQIndex + 1, userChoiceNumber, quizOptions, true);
                 }
             } else {
-                console.log(123)
                 return handleUnknown(handlerInput);
             }
         } else //User is not playing game
@@ -604,7 +586,6 @@ exports.handler = skillBuilder
         InformationIntentHandler,
         YesIntentHandler,
         NoIntentHandler,
-        HelpHandler,
         ElementSelectedHandler,
         HelpIntentHandler,
         CancelIntentHandler,
@@ -612,6 +593,7 @@ exports.handler = skillBuilder
         RepeatIntentHandler,
         MoreInfoIntentHandler,
         QuizIntentHandler,
+        NextIntentHandler,
         PreviousIntentHandler,
         SessionEndedRequestHandler
     )
@@ -824,25 +806,24 @@ function generateNewQuestion(pHandlerInput, pSpeechOutput, pQuestionNo) {
 
     pHandlerInput.attributesManager.setSessionAttributes(attributes);
 
-    return listTemplateMaker('ListTemplate2', pHandlerInput, optionsArray, 2, question, pSpeechOutput, true, mainImgBlurBG);
+    return listTemplateMaker('ListTemplate2', pHandlerInput, optionsArray, question, pSpeechOutput, true, mainImgBlurBG);
 }
 
-function listTemplateMaker(pListTemplateType, pHandlerInput, pArray, pType, pTitle, pOutputSpeech, pQuiz, pBackgroundIMG) {
+function listTemplateMaker(pListTemplateType, pHandlerInput, pArray, pTitle, pOutputSpeech, pQuiz, pBackgroundIMG) {
     const response = pHandlerInput.responseBuilder;
     const backgroundImage = imageMaker("", pBackgroundIMG);
     var itemList = [];
-    var title;
+    var title = pTitle;
 
     for (var i = 0; i < pArray.length; i++) {
         itemList.push({
             "token": pArray[i].token,
             "textContent": new Alexa.PlainTextContentHelper().withPrimaryText(capitalizeFirstLetter(pArray[i].name)).getTextContent(),
-            "image": imageMaker(pArray[i].name, pArray[i].imageURL)
+            "image": imageMaker("", pArray[i].imageURL)
         });
     }
 
     if (pOutputSpeech) {
-        title = pOutputSpeech;
         response.speak(pOutputSpeech);
     }
 
@@ -863,8 +844,6 @@ function bodyTemplateMaker(pBodyTemplateType, pHandlerInput, pImg, pTitle, pText
     const richText = richTextMaker(pText1, pText2, pText3);
     const backgroundImage = imageMaker("", pBackgroundIMG);
     const title = pTitle;
-
-    console.log('setting body template')
 
     response.addRenderTemplateDirective({
         type: pBodyTemplateType,
@@ -901,7 +880,7 @@ function showMainList(pHandlerInput) //For main list of values in the dictionary
     if (supportsDisplay(pHandlerInput) && !testingOnSim) {
         speechOutput = 'Select or ask for a ' + categorySingular + ' below for more information.';
 
-        return listTemplateMaker('ListTemplate1', pHandlerInput, attributes.mainArray, 1, speechOutput, speechOutput, null, mainImgBlurBG);
+        return listTemplateMaker('ListTemplate1', pHandlerInput, attributes.mainArray, speechOutput, speechOutput, null, mainImgBlurBG);
     } else {
         var objectArray = attributes.mainArray;
 
