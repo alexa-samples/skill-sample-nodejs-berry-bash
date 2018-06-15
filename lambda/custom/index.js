@@ -753,6 +753,8 @@ function endSkill(pHandlerInput) {
 
     const response = pHandlerInput.responseBuilder;
 
+    response.withShouldEndSession(true);
+
     return response
         .speak(speechOutput)
         .getResponse();
