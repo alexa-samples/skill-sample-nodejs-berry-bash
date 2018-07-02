@@ -398,8 +398,6 @@ const ElementSelectedHandler = {
             var quizOptions = attributes.QuizOptionArray;
             var currentQNo = attributes.questionNumber;
 
-            console.log(handlerInput.requestEnvelope.request.intent.slots.numberValue.value)
-
             if (handlerInput.requestEnvelope.request.token) {
                 //User touched the screen
                 if (currentQNo < quizOptions.length - 1) {
@@ -808,19 +806,35 @@ function generateNewQuestion(pHandlerInput, pSpeechOutput, pQuestionNo) {
 
     pHandlerInput.attributesManager.setSessionAttributes(attributes);
 
-    return listTemplateMaker('ListTemplate2', pHandlerInput, optionsArray, question, pSpeechOutput, true, mainImgBlurBG);
+    return listTemplateMaker('ListTemplate2', pHandlerInput, optionsArray, question, pSpeechOutput, true, mainImgBlurBG, true);
 }
 
-function listTemplateMaker(pListTemplateType, pHandlerInput, pArray, pTitle, pOutputSpeech, pQuiz, pBackgroundIMG) {
+function listTemplateMaker(pListTemplateType, pHandlerInput, pArray, pTitle, pOutputSpeech, pQuiz, pBackgroundIMG, pQuiz) {
     const response = pHandlerInput.responseBuilder;
     const backgroundImage = imageMaker("", pBackgroundIMG);
     var itemList = [];
     var title = pTitle;
+    var listItemNames = [];
+    
+    if (pQuiz)
+    {
+        for (var i = 0; i < pArray.length; i++) {
+            listItemNames[i] = "";
+        }
+    }
+    else
+    {
+        for (var i = 0; i < pArray.length; i++) {
+            listItemNames[i] = pArray[i].name;
+        }
+    }
+    
+    
 
     for (var i = 0; i < pArray.length; i++) {
         itemList.push({
             "token": pArray[i].token,
-            "textContent": new Alexa.PlainTextContentHelper().withPrimaryText(capitalizeFirstLetter(pArray[i].name)).getTextContent(),
+            "textContent": new Alexa.PlainTextContentHelper().withPrimaryText(capitalizeFirstLetter(listItemNames[i])).getTextContent(),
             "image": imageMaker("", pArray[i].imageURL)
         });
     }
@@ -882,7 +896,7 @@ function showMainList(pHandlerInput) //For main list of values in the dictionary
     if (supportsDisplay(pHandlerInput) && !testingOnSim) {
         speechOutput = 'Select or ask for a ' + categorySingular + ' below for more information.';
 
-        return listTemplateMaker('ListTemplate1', pHandlerInput, attributes.mainArray, speechOutput, speechOutput, null, mainImgBlurBG);
+        return listTemplateMaker('ListTemplate1', pHandlerInput, attributes.mainArray, speechOutput, speechOutput, null, mainImgBlurBG, false);
     } else {
         var objectArray = attributes.mainArray;
 
