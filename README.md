@@ -52,10 +52,10 @@ Alexa, ask Berry Bash to tell me about raspberries
 * Install and Setup [ASK CLI](https://developer.amazon.com/docs/smapi/quick-start-alexa-skills-kit-command-line-interface.html)
 
 ### Installation
-1. Clone the repository into a folder named Berry-Bash.
+1. Clone the repository
 
 	```bash
-	$ git clone https://github.com/Alexa/sample-skill-nodejs-berry-bash Berry-Bash
+	$ git clone https://github.com/Alexa/sample-skill-nodejs-berry-bash.git
 	```
 
 2. Initiatialize the [ASK CLI](https://developer.amazon.com/docs/smapi/quick-start-alexa-skills-kit-command-line-interface.html) by Navigating into the repository and running npm command: `ask init`. Follow the prompts.
