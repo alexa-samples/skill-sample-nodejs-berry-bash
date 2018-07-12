@@ -7,7 +7,7 @@
 
 # Adding screens to your voice experience
 
-This Alexa sample skill demonstrates the use of interactive render template directives through multi modal screen design. It provides an infrastructure that on one hand, provides lists to users to allow them to select from and get more information about topics (which are then rendered via body templates). On the other hand, it also provides users with a quiz that supports both touch and voice control. **Most importantly, the skill has been designed in such a way that you can modify the core skill data to any category you like!**
+This Alexa sample skill demonstrates the use of interactive render template directives through multi modal screen design, **now in the V2 SDK**. It provides an infrastructure that on one hand, provides lists to users to allow them to select from and get more information about topics (which are then rendered via body & list templates). On the other hand, it also provides users with a quiz that supports both touch and voice control. **Most importantly, the skill has been designed in such a way that you can modify the core skill data to any category you like!**
 
 If this is your first time here, you're new to Alexa Skills Development, or you're looking for more detailed instructions, click the **Get Started** button below:
 
@@ -90,7 +90,7 @@ ASK CLI will create the skill and the lambda function for you. The Lambda functi
 2. Simulate verbal interaction with your skill through the command line using the following example:
 
 	```bash
-	 $ ask simulate -l en-GB -t "open berry bash"
+	 $ ask simulate -l en-US -t "open berry bash"
 
 	 ✓ Simulation created for simulation id: ***
 	◡ Waiting for simulation response{
