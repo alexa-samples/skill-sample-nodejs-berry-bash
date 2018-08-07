@@ -70,7 +70,7 @@ pronounce it. To make changes to her pronunciation, use Speech Synthesis Markup 
 6.  **Other testing methods to consider:**
 
     *  [Echosim.io](https://echosim.io) - a browser-based Alexa skill testing tool that makes it easy to test your skills without carrying a physical device everywhere you go.
-    *  [Unit Testing with Alexa](https://github.com/alexa/alexa-cookbook/tree/master/testing/postman/README.md) - a modern approach to unit testing your Alexa skills with [Postman](http://getpostman.com) and [Amazon API Gateway](http://aws.amazon.com/apigateway).
+    *  [Unit Testing with Alexa](https://github.com/alexa/alexa-cookbook/blob/master/guides/testing/postman.md) - a modern approach to unit testing your Alexa skills with [Postman](http://getpostman.com) and [Amazon API Gateway](http://aws.amazon.com/apigateway).
 
 7.  **If your sample skill is working properly, you can now customize your skill.**
 
