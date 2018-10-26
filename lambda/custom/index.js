@@ -341,7 +341,7 @@ const NextIntentHandler = {
     },
     handle(handlerInput) {
         //Provide instructions based on skill state
-        newSessionHandler.call(this);
+        newSessionHandler(handlerInput);
 
         return handleUnknown(handlerInput);
     },
@@ -355,7 +355,7 @@ const HelpIntentHandler = {
     },
     handle(handlerInput) {
         //Provide instructions based on skill state
-        newSessionHandler.call(this);
+        newSessionHandler(handlerInput);
 
         const attributes = handlerInput.attributesManager.getSessionAttributes();
         const response = handlerInput.responseBuilder;
