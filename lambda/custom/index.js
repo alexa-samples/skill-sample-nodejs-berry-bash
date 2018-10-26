@@ -297,6 +297,7 @@ const CancelIntentHandler = {
 
             return response.speak(speechOutput).getResponse();
         } else {
+            reprompt = 'Which ' + categorySingular + ' would you like to hear about?'
             return showSkillIntro(speechOutput, reprompt, handlerInput);
         }
     },
@@ -371,6 +372,7 @@ const HelpIntentHandler = {
             saveLastThingSaid(handlerInput, speechOutput)
             response.speak(speechOutput).getResponse();
         } else {
+            reprompt = 'Which ' + categorySingular + ' would you like to hear about?'
             return showSkillIntro(speechOutput, reprompt, handlerInput);
         }
     },
