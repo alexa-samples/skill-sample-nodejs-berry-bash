@@ -186,7 +186,7 @@ function QuizFunction(handlerInput) {
 
             return response.speak(speechOutput).reprompt(reprompt).getResponse();
         }
-    } else if (supportsDisplay.call(this) && !testingOnSim) {
+    } else if (supportsDisplay(handlerInput) && !testingOnSim) {
         speechOutput = 'You are already in the middle of a game. Please answer the question: ' + attributes.storedQuestion;
 
 
@@ -341,7 +341,7 @@ const NextIntentHandler = {
     },
     handle(handlerInput) {
         //Provide instructions based on skill state
-        newSessionHandler.call(this);
+        newSessionHandler(handlerInput);
 
         return handleUnknown(handlerInput);
     },
@@ -355,7 +355,7 @@ const HelpIntentHandler = {
     },
     handle(handlerInput) {
         //Provide instructions based on skill state
-        newSessionHandler.call(this);
+        newSessionHandler(handlerInput);
 
         const attributes = handlerInput.attributesManager.getSessionAttributes();
         const response = handlerInput.responseBuilder;
